@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Karan's Driving Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: #cce7ff;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+      background: #87ceeb;
+      border: 5px solid #333;
+    }
+  </style>
+</head>
+<body>
+<canvas id="game" width="800" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let gravity = 0.5;
+let keys = {};
+let level = 0;
+
+const levels = [
+  {
+    obstacles: [
+      { x: 300, y: 350, w: 30, h: 50 },
+      { x: 500, y: 350, w: 30, h: 50 }
+    ],
+    flag: { x: 700, y: 350, w: 30, h: 50 }
+  },
+  {
+    obstacles: [
+      { x: 200, y: 350, w: 30, h: 50 },
+      { x: 300, y: 320, w: 60, h: 80 },
+      { x: 600, y: 350, w: 30, h: 50 }
+    ],
+    flag: { x: 750, y: 350, w: 30, h: 50 }
+  },
+  {
+    obstacles: [
+      { x: 250, y: 350, w: 30, h: 50 },
+      { x: 400, y: 350, w: 30, h: 50 },
+      { x: 500, y: 320, w: 30, h: 80 },
+      { x: 650, y: 350, w: 30, h: 50 }
+    ],
+    flag: { x: 770, y: 350, w: 20, h: 50 }
+  }
+];
+
+let car = {
+  x: 50,
+  y: 350,
+  w: 40,
+  h: 30,
+  vy: 0,
+  onGround: false
+};
+
+function drawCar() {
+  ctx.fillStyle = "#ff3333";
+  ctx.fillRect(car.x, car.y, car.w, car.h);
+  ctx.fillStyle = "#000";
+  ctx.beginPath();
+  ctx.arc(car.x + 10, car.y + car.h, 7, 0, Math.PI * 2);
+  ctx.arc(car.x + car.w - 10, car.y + car.h, 7, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawGround() {
+  ctx.fillStyle = "#228B22";
+  ctx.fillRect(0, 380, canvas.width, 20);
+}
+
+function drawObstacles(obstacles) {
+  ctx.fillStyle = "#555";
+  for (let obs of obstacles) {
+    ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+  }
+}
+
+function drawFlag(flag) {
+  ctx.fillStyle = "#00cc00";
+  ctx.fillRect(flag.x, flag.y, flag.w, flag.h);
+}
+
+function update() {
+  // Apply gravity
+  car.vy += gravity;
+  car.y += car.vy;
+
+  // Move left/right
+  if (keys["ArrowLeft"]) car.x -= 3;
+  if (keys["ArrowRight"]) car.x += 3;
+
+  // Ground collision
+  if (car.y + car.h > 380) {
+    car.y = 380 - car.h;
+    car.vy = 0;
+    car.onGround = true;
+  } else {
+    car.onGround = false;
+  }
+
+  // Jump
+  if (keys["ArrowUp"] && car.onGround) {
+    car.vy = -10;
+    car.onGround = false;
+  }
+
+  // Obstacle collision
+  for (let obs of levels[level].obstacles) {
+    if (isColliding(car, obs)) {
+      resetLevel();
+    }
+  }
+
+  // Flag collision
+  if (isColliding(car, levels[level].flag)) {
+    nextLevel();
+  }
+}
+
+function isColliding(a, b) {
+  return (
+    a.x < b.x + b.w &&
+    a.x + a.w > b.x &&
+    a.y < b.y + b.h &&
+    a.y + a.h > b.y
+  );
+}
+
+function resetLevel() {
+  car.x = 50;
+  car.y = 350;
+  car.vy = 0;
+}
+
+function nextLevel() {
+  level++;
+  if (level >= levels.length) {
+    alert("🎉 You finished all levels, champ!");
+    level = 0;
+  }
+  resetLevel();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGround();
+  drawObstacles(levels[level].obstacles);
+  drawFlag(levels[level].flag);
+  drawCar();
+}
+
+function gameLoop() {
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+document.addEventListener("keydown", (e) => (keys[e.key] = true));
+document.addEventListener("keyup", (e) => (keys[e.key] = false));
+
+gameLoop();
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  font-family: 'Courier New', monospace;
+  color: #00ffcc;
+  overflow: hidden;
+}
+
+.background-glow {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,255,128,0.1) 0%, rgba(0,0,0,0.95) 100%);
+  z-index: -2;
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 0, 0.03),
+    rgba(0, 255, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: -1;
+  pointer-events: none;
+  animation: flicker 1s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.5; }
+}
+
+.game-container {
+  max-width: 600px;
+  margin: 100px auto;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 0 20px #00ffcc;
+  text-align: center;
+}
+
+.glitch-title {
+  font-size: 2.5em;
+  color: #00ffcc;

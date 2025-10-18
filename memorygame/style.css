@@ -1,0 +1,164 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #4A9DF6;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Mode Selection */
+.mode-selection {
+    margin: 30px 0;
+}
+
+.mode-btn {
+    background-color: #4A9DF6;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.mode-btn:hover {
+    background-color: #3a7ec5;
+}
+
+/* Score Panel */
+.score-panel {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+#player-display {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.player {
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.player.active {
+    background-color: #FFDE59;
+    font-weight: bold;
+}
+
+/* Game Board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    margin: 20px 0;
+}
+
+.card {
+    height: 100px;
+    background-color: #4A9DF6;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0;
+    transition: transform 0.3s;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+    background-color: white;
+    font-size: 40px;
+}
+
+@keyframes match-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.card.matched {
+    background-color: #67E667;
+    animation: match-animation 0.5s;
+}
+
+.winner-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FF6B6B;
+    margin: 15px 0;
+}
+
+/* Buttons */
+.button-panel {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+button {
+    background-color: #FF6B6B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #ff8c8c;
+}
+
+#back-button {
+    background-color: #B088F9;
+}
+
+#back-button:hover {
+    background-color: #9c75e6;
+}
+
+/* Sound Button Styling */
+#sound-button {
+    background-color: #67E667;
+    font-size: 18px;
+    width: 45px;
+    padding: 10px 0;
+}
+
+#sound-button:hover {
+    background-color: #4cd04c;
+}
+
+#sound-button.muted {
+    background-color: #FF6B6B;
+}
+
+#sound-button.muted:hover {
+    background-color: #ff8c8c;
+}

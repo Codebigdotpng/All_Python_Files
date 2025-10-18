@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Memory Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Memory Game</h1>
+        
+        <!-- Game Mode Selection -->
+        <div id="mode-selection" class="mode-selection">
+            <h2>Choose Game Mode:</h2>
+            <button id="single-player-btn" class="mode-btn">Single Player</button>
+            <button id="two-player-btn" class="mode-btn">Two Players</button>
+        </div>
+        
+        <!-- Game Area (hidden initially) -->
+        <div id="game-area" class="game-area hidden">
+            <div class="score-panel">
+                <div id="player-display">
+                    <div id="player-one" class="player active">Player 1: <span id="score-one">0</span></div>
+                    <div id="player-two" class="player">Player 2: <span id="score-two">0</span></div>
+                </div>
+                <div class="moves">Moves: <span id="moves-count">0</span></div>
+                <div class="timer">Time: <span id="timer">0</span> seconds</div>
+            </div>
+            
+            <div class="game-board">
+                <!-- Cards will be added here with JavaScript -->
+            </div>
+            
+            <div class="button-panel">
+                <button id="restart-button">Restart Game</button>
+                <button id="back-button">Change Mode</button>
+                <button id="sound-button">🔊</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

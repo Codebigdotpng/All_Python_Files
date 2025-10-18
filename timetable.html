@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Karan's CRUD Timetable</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #e0f7fa;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00796b;
+    }
+
+    #addForm {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 2px solid #4db6ac;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #b2dfdb;
+    }
+
+    td {
+      background-color: #ffffff;
+    }
+
+    .btn {
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .edit-btn {
+      background-color: #ffeb3b;
+    }
+
+    .delete-btn {
+      background-color: #ef5350;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📅 Karan's Editable Timetable 📅</h1>
+
+  <div id="addForm">
+    <input type="text" id="timeInput" placeholder="Time (e.g. 8:00 - 9:00)">
+    <input type="text" id="taskInput" placeholder="Task or Subject">
+    <button onclick="addSlot()">Add Slot</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Task</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="timetableBody"></tbody>
+  </table>
+
+  <script>
+    const timetableBody = document.getElementById("timetableBody");
+
+    function addSlot() {
+      const time = document.getElementById("timeInput").value.trim();
+      const task = document.getElementById("taskInput").value.trim();
+
+      if (time === "" || task === "") {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td><span class="time">${time}</span></td>
+        <td><span class="task">${task}</span></td>
+        <td>
+          <button class="btn edit-btn" onclick="editSlot(this)">Edit</button>
+          <button class="btn delete-btn" onclick="deleteSlot(this)">Delete</button>
+        </td>
+      `;
+
+      timetableBody.appendChild(row);
+
+      document.getElementById("timeInput").value = "";
+      document.getElementById("taskInput").value = "";
+    }
+
+    function editSlot(button) {
+      const row = button.parentElement.parentElement;
+      const timeCell = row.querySelector(".time");
+      const taskCell = row.querySelector(".task");
+
+      const newTime = prompt("Edit time:", timeCell.textContent);
+      const newTask = prompt("Edit task:", taskCell.textContent);
+
+      if (newTime !== null && newTask !== null) {
+        timeCell.textContent = newTime.trim();
+        taskCell.textContent = newTask.trim();
+      }
+    }
+
+    function deleteSlot(button) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Rush: Code Core Heist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="scanlines"></div>
+  <div class="game-container">
+    <h1 class="glitch-title">MATH RUSH<br><span>Code Core Heist</span></h1>
+    <div id="game-screen">
+      <p id="challenge"></p>
+      <input type="number" id="answer" placeholder="Access Code...">
+      <button onclick="submitAnswer()">Execute</button>
+      <p id="feedback"></p>
+    </div>
+    <button id="start-button" onclick="startGame()">💻 Start Hack</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
