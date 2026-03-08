@@ -28,3 +28,7 @@ try:
 
 except ValueError:
     print("Uhh... That's not an integer.")
+if operation != "+" and operation != "-" and operation != "*" and operation != "/":
+    print("Nahh,I can't do that as your operation has to be +(Add),-(Subtract),*(Multiply)or /(Divide).")
+elif operation == "/" and num2 == 0:
+    print("Cannot divide by zero!")

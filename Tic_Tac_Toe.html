@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIC TAC TOE</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --grid: #1a1a2e;
+    --x: #ff3e6c;
+    --o: #00e5ff;
+    --line: #2a2a4a;
+    --glow-x: rgba(255,62,108,0.5);
+    --glow-o: rgba(0,229,255,0.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,229,255,0.015) 2px, rgba(0,229,255,0.015) 4px);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, var(--x), var(--o));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(0,229,255,0.4));
+  }
+
+  .status {
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 32px;
+    height: 20px;
+    color: #aaa;
+    transition: color 0.3s;
+  }
+
+  .status.x { color: var(--x); text-shadow: 0 0 10px var(--glow-x); }
+  .status.o { color: var(--o); text-shadow: 0 0 10px var(--glow-o); }
+  .status.win { font-size: 0.55rem; animation: pulse 0.6s ease-in-out infinite alternate; }
+
+  @keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 110px);
+    grid-template-rows: repeat(3, 110px);
+    gap: 4px;
+    background: var(--line);
+    border: 2px solid var(--line);
+    box-shadow: 0 0 40px rgba(0,229,255,0.1), 0 0 80px rgba(255,62,108,0.05);
+  }
+
+  .cell {
+    background: var(--grid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2.5rem;
+    transition: background 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cell:hover:not(.taken) {
+    background: #1e1e38;
+  }
+
+  .cell::after {
+    content: attr(data-val);
+    position: absolute;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+
+  .cell.x::after {
+    color: var(--x);
+    text-shadow: 0 0 15px var(--glow-x), 0 0 30px var(--glow-x);
+    animation: popIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .cell.o::after {
+    color: var(--o);
+    text-shadow: 0 0 15px var(--glow-o), 0 0 30px var(--glow-o);
+    animation: popIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .cell.win-cell {
+    background: #1a1a30;
+    animation: winFlash 0.4s ease-out;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0) rotate(-15deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes winFlash {
+    0% { background: #2a2a50; }
+    50% { background: #252550; }
+    100% { background: #1a1a30; }
+  }
+
+  .scoreboard {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    font-size: 0.45rem;
+    letter-spacing: 0.1em;
+  }
+
+  .score-item { text-align: center; }
+  .score-item .label { color: #555; margin-bottom: 8px; }
+  .score-item.x-score .num { color: var(--x); text-shadow: 0 0 8px var(--glow-x); }
+  .score-item.o-score .num { color: var(--o); text-shadow: 0 0 8px var(--glow-o); }
+  .score-item .num { font-size: 1.2rem; }
+
+  .btn {
+    margin-top: 28px;
+    padding: 12px 28px;
+    background: transparent;
+    border: 2px solid #333;
+    color: #555;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn:hover {
+    border-color: var(--o);
+    color: var(--o);
+    box-shadow: 0 0 15px var(--glow-o);
+  }
+</style>
+</head>
+<body>
+
+<h1>TIC TAC TOE</h1>
+<div class="status" id="status">PLAYER X — YOUR TURN</div>
+
+<div class="board" id="board">
+  <div class="cell" data-i="0" data-val=""></div>
+  <div class="cell" data-i="1" data-val=""></div>
+  <div class="cell" data-i="2" data-val=""></div>
+  <div class="cell" data-i="3" data-val=""></div>
+  <div class="cell" data-i="4" data-val=""></div>
+  <div class="cell" data-i="5" data-val=""></div>
+  <div class="cell" data-i="6" data-val=""></div>
+  <div class="cell" data-i="7" data-val=""></div>
+  <div class="cell" data-i="8" data-val=""></div>
+</div>
+
+<div class="scoreboard">
+  <div class="score-item x-score">
+    <div class="label">X WINS</div>
+    <div class="num" id="xScore">0</div>
+  </div>
+  <div class="score-item">
+    <div class="label">DRAWS</div>
+    <div class="num" id="dScore" style="color:#555">0</div>
+  </div>
+  <div class="score-item o-score">
+    <div class="label">O WINS</div>
+    <div class="num" id="oScore">0</div>
+  </div>
+</div>
+
+<button class="btn" id="resetBtn">NEW GAME</button>
+
+<script>
+  const WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  let board = Array(9).fill('');
+  let current = 'X';
+  let gameOver = false;
+  let scores = { X: 0, O: 0, D: 0 };
+
+  const cells = document.querySelectorAll('.cell');
+  const status = document.getElementById('status');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function render() {
+    cells.forEach((c, i) => {
+      c.setAttribute('data-val', board[i]);
+      c.className = 'cell' + (board[i] ? ` ${board[i].toLowerCase()} taken` : '');
+    });
+  }
+
+  function setStatus(msg, cls = '') {
+    status.className = 'status ' + cls;
+    status.textContent = msg;
+  }
+
+  function checkWin() {
+    for (let [a,b,c] of WINS) {
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return [a,b,c];
+      }
+    }
+    return null;
+  }
+
+  cells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const i = +cell.dataset.i;
+      if (gameOver || board[i]) return;
+      board[i] = current;
+      render();
+      const win = checkWin();
+      if (win) {
+        gameOver = true;
+        win.forEach(idx => cells[idx].classList.add('win-cell'));
+        scores[current]++;
+        document.getElementById(current === 'X' ? 'xScore' : 'oScore').textContent = scores[current];
+        setStatus(`PLAYER ${current} WINS!`, `${current.toLowerCase()} win`);
+      } else if (board.every(Boolean)) {
+        gameOver = true;
+        scores.D++;
+        document.getElementById('dScore').textContent = scores.D;
+        setStatus('DRAW!', 'win');
+      } else {
+        current = current === 'X' ? 'O' : 'X';
+        setStatus(`PLAYER ${current} — YOUR TURN`, current.toLowerCase());
+      }
+    });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    board = Array(9).fill('');
+    current = 'X';
+    gameOver = false;
+    render();
+    setStatus('PLAYER X — YOUR TURN', '');
+  });
+
+  setStatus('PLAYER X — YOUR TURN');
+</script>
+</body>
+</html>
