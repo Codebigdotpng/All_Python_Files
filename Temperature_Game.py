@@ -4,8 +4,8 @@
 # Only change this line!
 #Temperature in celcius, so get rekt americans
 try:
-    # 👇 Replace the value below to test with other inputs like "cat", 25, etc.
-    god_input = "cat"  # 👈 GOD sets today's temperature here as a string
+    # 👇 Replace the value below to test with other inputs like 23, 25, etc.
+    god_input = "12"  # 👈 GOD sets today's temperature here as a string
 
     actual_temperature = int(god_input)
 except (ValueError, NameError):

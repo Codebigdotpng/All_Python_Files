@@ -1,8 +1,5 @@
-try:
-    divider = int(input("Enter a number: "))
-    result = 100 / divider
-    print("The result is:", result)
-except ZeroDivisionError:
-    print("Error: Division by zero is not allowed.")
-except ValueError:
-    print("Error: Please enter a valid integer.")
+import random
+answers = ["yes", "no", "maybe"]
+question = str(input("Ask a yes or no question: "))
+result = random.choice(answers)
+print(result)
