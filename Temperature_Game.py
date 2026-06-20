@@ -1,11 +1,11 @@
 # Weather Guessing Game
 
-# GOD decides the temperature (between -10 and 40)
+# GOD decides the temperature (between -20 and 40)
 # Only change this line!
-#Temperature in celcius, so get rekt americans
+# Temperature in celcius, so get rekt americans
 try:
     # 👇 Replace the value below to test with other inputs like 23, 25, etc.
-    god_input = "12"  # 👈 GOD sets today's temperature here as a string
+    god_input = "5" # 👈 GOD sets today's temperature here as a string
 
     actual_temperature = int(god_input)
 except (ValueError, NameError):
@@ -13,7 +13,7 @@ except (ValueError, NameError):
     exit()
 
 # Check if God followed the temperature rule
-if actual_temperature < -10 or actual_temperature > 40:
+if actual_temperature < -20 or actual_temperature > 40:
     print("⚠️ We can't even show you the weather report as the weather is insane. I gotta go to my room...")
     exit()
 else:
@@ -22,10 +22,10 @@ else:
     # Clue 1
     if actual_temperature < 0:
         print("Clue 1: It's freezing! Temperature less than zero! ❄️")
-    elif actual_temperature < 15:
-        print("Clue 1: It's pretty chilly. Less than 15 degrees. 🧥")
+    elif actual_temperature < 10:
+        print("Clue 1: It's pretty chilly. Less than 10 degrees. 🧥")
     else:
-        print("Clue 1: No need for a jacket. More than 15 degrees. 🌞")
+        print("Clue 1: No need for a jacket. More than 10 degrees. 🌞")
 
     # Clue 2
     if actual_temperature >= 30:
@@ -87,4 +87,4 @@ else:
 
         turn += 1
 
-    print(f"\n🏆 {winner} won! Ws in the chat. The temperature was {actual_temperature}°C. Clutch win, {winner}.")
+    print(f"\n🏆 {winner} wins! Good Game! The temperature was {actual_temperature}°C. Good One, {winner}.")
