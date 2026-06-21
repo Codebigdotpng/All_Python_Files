@@ -1,11 +1,11 @@
+import random
+
 # Weather Guessing Game
 
 # GOD decides the temperature (between -20 and 40)
-# Only change this line!
 # Temperature in celcius, so get rekt americans
 try:
-    # 👇 Replace the value below to test with other inputs like 23, 25, etc.
-    god_input = "5" # 👈 GOD sets today's temperature here as a string
+    god_input = str(random.randint(-20, 40))  # 👈 GOD sets today's temperature here as a string
 
     actual_temperature = int(god_input)
 except (ValueError, NameError):

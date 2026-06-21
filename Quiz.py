@@ -1,11 +1,8 @@
-with open("Test_File.txt", "w") as f:
-  f.write("Hello, World!")
+# This Document is used for when I do practical questions. Nothing Here!
 
-with open("Test_File.txt", "r") as f:
-   i = f.read()
-   print(i)
+def addnumbers():
+    a = 6
+    b = 15
+    return a + b
 
-with open("Test_File.txt", "a") as f:
-    f.write("\nThis is a second line!")
-
-f = open("myfile.py", "x")
+print(addnumbers())
