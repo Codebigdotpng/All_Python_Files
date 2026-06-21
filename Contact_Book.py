@@ -1,5 +1,3 @@
-# This Document is used for when I do practical questions. Nothing Here!
-
 #Contact Book
 Contact_Book = {}
 
@@ -19,8 +17,6 @@ while True:
                 print(f"{name}: {number}")
     elif Profile == "3":
         print("Goodbye!")
+        break
     else:
         print("Invalid option. Please choose 1, 2, or 3. Try again.")
-        break
-    
-Profile = input("What would you like to do? (1=Add, 2=View, 3=Quit):")
